@@ -23,6 +23,20 @@
 				</div>
 		  </div>
     </div>
+
+	<table class="table">
+		<% assets.items.map(function(asset) { %>
+		<tr>
+			<td>
+				Name: <%=asset.fields.file.fileName %>
+			</td>
+			<td>
+				<img class="thumbnail" src="https:<%=asset.fields.file.url %>?w=200&h=200" />
+			</td>
+		</tr>
+		<% }); %>
+	</table>
+
     <script type="text/javascript" src="https://static.filestackapi.com/v3/filestack.js"></script>
 		<script>
 				var client = filestack.init('AbTDJBMsYS2u72ZtMufMcz');

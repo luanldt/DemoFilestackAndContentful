@@ -1,57 +1,59 @@
 <!DOCTYPE html>
 <html>
-  <head>
+<head>
     <title><%= title %></title>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" />
-    <link rel='stylesheet' href='/stylesheets/style.css' />
-  </head>
-  <body>
-    <div class="jumbotron success">
-    	<h1 class="text-center">Demo Contentful Upload file</h1>
-    	<div class="container">
-    		<div class="row">
-    			<div class="col-xs-6 col-xs-offset-3">
-							<div class="form-group">
-								<input class="btn btn-success" type="button" onclick="showPicker()" value="Upload" />
-							</div>
-						<form action="/upload" id="formHidden" method="post">
-							<input type="hidden" name="mimetype" value="" id="mimetype" />
-							<input type="hidden" name="filename" value="" id="filename" />
-							<input type="hidden" name="url" value="" id="url" />
-						</form>
-					</div>
-				</div>
-		  </div>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"/>
+    <link rel='stylesheet' href='/stylesheets/style.css'/>
+</head>
+<body>
+<div class="jumbotron success">
+    <h1 class="text-center">Demo Contentful Upload file</h1>
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-6 col-xs-offset-3">
+                <div class="form-group">
+                    <input class="btn btn-success" type="button" onclick="showPicker()" value="Upload"/>
+                </div>
+                <form action="/upload" id="formHidden" method="post">
+                    <input type="hidden" name="mimetype" value="" id="mimetype"/>
+                    <input type="hidden" name="filename" value="" id="filename"/>
+                    <input type="hidden" name="url" value="" id="url"/>
+                </form>
+            </div>
+        </div>
     </div>
+</div>
 
-	<table class="table">
-		<% assets.items.map(function(asset) { %>
-		<tr>
-			<td>
-				Name: <%=asset.fields.file.fileName %>
-			</td>
-			<td>
-				<img class="thumbnail" src="https:<%=asset.fields.file.url %>?w=200&h=200" />
-			</td>
-		</tr>
-		<% }); %>
-	</table>
+<table class="table">
+    <% assets.items.map(function(asset) { %>
+    <tr>
+        <td>
+            Name: <%= asset.fields.file.fileName %>
+        </td>
+        <td>
+            <img class="thumbnail" src="https:<%= asset.fields.file.url %>?w=200&h=200"/>
+        </td>
+    </tr>
+    <% }); %>
+</table>
 
-    <script type="text/javascript" src="https://static.filestackapi.com/v3/filestack.js"></script>
-		<script>
-				var client = filestack.init('AbTDJBMsYS2u72ZtMufMcz');
-				function showPicker() {
-				    client.pick({
-				    }).then(function(result) {
-				        console.log(JSON.stringify(result.filesUploaded))
-				        result.filesUploaded.forEach(fileUploaded => {
-				        	document.getElementById('url').value = fileUploaded.url;
-				        	document.getElementById('filename').value = fileUploaded.filename;
-				        	document.getElementById('mimetype').value = fileUploaded.mimetype;
-				        	document.getElementById('formHidden').submit();
-				        });    
-				    });
-				}
-		</script>
-  </body>
+<script type="text/javascript" src="https://static.filestackapi.com/v3/filestack.js"></script>
+<script>
+    var client = filestack.init('AbTDJBMsYS2u72ZtMufMcz');
+    function showPicker() {
+        client.pick({
+            accept:'image/*',
+            maxFiles: 1
+        }).then(function (result) {
+            console.log(JSON.stringify(result.filesUploaded))
+            result.filesUploaded.forEach(fileUploaded => {
+                document.getElementById('url').value = fileUploaded.url;
+                document.getElementById('filename').value = fileUploaded.filename;
+                document.getElementById('mimetype').value = fileUploaded.mimetype;
+                document.getElementById('formHidden').submit();
+            });
+        });
+    }
+</script>
+</body>
 </html>
